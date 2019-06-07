@@ -1,8 +1,13 @@
+# Projeto Compostagem IFSC
 
 
-### importante
+## Dados em tempo real
+https://docs.google.com/spreadsheets/d/1N5u85N-EJNjbe2gtfyZ38t3KWcYSQklyatBzgI10Ji0/
 
-Ligar um resistor de 4.7kohm (~5kohm segundo a documentação)
+
+### Importante
+
+Ligar um resistor de 4.7kohm (~5kohm segundo a documentação) entre: 1) alimentação, 2) sensor e 3) input de dados
 
 
 ### Passos
