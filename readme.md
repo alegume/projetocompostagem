@@ -1,6 +1,11 @@
+# Projeto Compostagem IFSC
 
 
-### importante
+## Dados em tempo real
+https://docs.google.com/spreadsheets/d/1N5u85N-EJNjbe2gtfyZ38t3KWcYSQklyatBzgI10Ji0/edit#gid=2076751055
+
+
+### Importante
 
 Ligar um resistor de 4.7kohm (~5kohm segundo a documentação)
 
