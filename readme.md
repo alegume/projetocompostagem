@@ -1,5 +1,7 @@
 # Projeto Compostagem IFSC
 
+Projeto para monitorar os processos de compostagem utilizando Raspberry PI, múltiplos sensores de temperatura e de gases. O projeto está em desenvolvimento no IFSC de Canoinhas.
+
 
 ## Dados em tempo real
 https://docs.google.com/spreadsheets/d/1N5u85N-EJNjbe2gtfyZ38t3KWcYSQklyatBzgI10Ji0/
