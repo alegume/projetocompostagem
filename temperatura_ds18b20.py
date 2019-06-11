@@ -17,7 +17,7 @@ Entrada de dados = GPIO PIN 4
 os.system('modprobe w1-gpio')
 os.system('modprobe w1-therm')
 
-# Iformacoes do host
+# Informacoes do host
 dir_path = os.path.dirname(os.path.realpath(__file__))
 hostname = socket.gethostname()
 
