@@ -1,4 +1,4 @@
-"""Example for gas detection module."""
+#!/usr/bin/python3
 
 import time
 from gas_detection import GasDetection
