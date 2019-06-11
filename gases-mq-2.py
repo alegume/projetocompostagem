@@ -60,8 +60,24 @@ def main():
 				# Se nao existe, cria
 				if worksheet == None:
 					worksheet = spreadsheet.add_worksheet(title=gas, rows='100', cols='2')
-					worksheet.append_row([gas, valor])
+					worksheet.append_row(['Data', 'Valor (PPM)'])
+                
+                # data e hora, temperatura		
+                row = [datetime.now().strftime('%d/%m/%Y %H:%M:%-S'), read_temp(folder)]
 
+                try :
+                    worksheet.append_row(row)
+                except Exception as e:
+                    print(e)
+                    print('Erro ao enviar dados para a nuvem')
+
+                try:
+                    with open(os.path.join(dir_path, 'logs-temperatura' ,folder + '.csv'), 'a') as f:
+                        w = csv.writer(f)
+                        w.writerow(row)
+                except Exception as e:
+                    print(e)
+                    print('Erro ao salvar dado em arquivo .csv')
 
 			time.sleep(3)
 
