@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 
 import time
-from gas_detection import GasDetection
+from GasDetection.gas_detection import GasDetection
 
 def main():
 	print('Calibrando ...')
