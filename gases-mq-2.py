@@ -29,15 +29,15 @@ def main():
 	try:
 		while True:
 			ppm = detection.percentage()
-            
-            gases = {'CO': ppm[detection.CO_GAS],
-                'H2': ppm[detection.H2_GAS],
-                'CH4': ppm[detection.CH4_GAS],
-                'LP4': ppm[detection.LPG_GAS],
-                'PROPANO': ppm[detection.PROPANE_GAS],
-                'ALCOOL': ppm[detection.ALCOHOL_GAS],
-                'FUMACA': ppm[detection.SMOKE_GAS]
-            }
+
+			gases = {'CO': ppm[detection.CO_GAS],
+				'H2': ppm[detection.H2_GAS],
+				'CH4': ppm[detection.CH4_GAS],
+				'LP4': ppm[detection.LPG_GAS],
+				'PROPANO': ppm[detection.PROPANE_GAS],
+				'ALCOOL': ppm[detection.ALCOHOL_GAS],
+				'FUMACA': ppm[detection.SMOKE_GAS]
+			}
 
 			print('CO: {} ppm'.format(ppm[detection.CO_GAS]))
 			print('H2: {} ppm'.format(ppm[detection.H2_GAS]))
@@ -46,22 +46,22 @@ def main():
 			print('PROPANO: {} ppm'.format(ppm[detection.PROPANE_GAS]))
 			print('ÁLCOOL: {} ppm'.format(ppm[detection.ALCOHOL_GAS]))
 			print('FUMAÇA: {} ppm\n'.format(ppm[detection.SMOKE_GAS]))
-            
-            for gas, valor in gases.items():
-                # Todas as worksheets
-                ws_list = spreadsheet.worksheets()
-                worksheet = None
 
-                # Abre a planilha (worksheet)
-                for ws in ws_list:
-                    if ws.title == gas:
-                        worksheet = spreadsheet.worksheet(gas)
-                        break
-                # Se nao existe, cria
-                if worksheet == None:
-                    worksheet = spreadsheet.add_worksheet(title=gas, rows='100', cols='2')
-                    worksheet.append_row([gas, valor])
-            
+			for gas, valor in gases.items():
+				# Todas as worksheets
+				ws_list = spreadsheet.worksheets()
+				worksheet = None
+
+				# Abre a planilha (worksheet)
+				for ws in ws_list:
+					if ws.title == gas:
+						worksheet = spreadsheet.worksheet(gas)
+						break
+				# Se nao existe, cria
+				if worksheet == None:
+					worksheet = spreadsheet.add_worksheet(title=gas, rows='100', cols='2')
+					worksheet.append_row([gas, valor])
+
 
 			time.sleep(3)
 
