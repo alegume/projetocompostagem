@@ -41,7 +41,7 @@ def read_temp_raw(device_file):
 		print(fnf)
 		print('Sensor removido =/')
 	return lines
- 
+
 def read_temp(folder):
 	line = read_temp_raw(os.path.join(folder, 'w1_slave'))
 	equals_pos = line.find('t=')
@@ -75,8 +75,8 @@ while True:
 		if worksheet == None:
 			worksheet = spreadsheet.add_worksheet(title=folder, rows='100', cols='2')
 			worksheet.append_row(['Data Hora', 'Temperatura'])
-		
-		# data e hora, temperatura		
+
+		# data e hora, temperatura
 		row = [datetime.now().strftime('%d/%m/%Y %H:%M:%-S'), read_temp(folder)]
 
 		try :
