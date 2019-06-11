@@ -79,7 +79,7 @@ while True:
 		# data e hora, temperatura
 		row = [datetime.now().strftime('%d/%m/%Y %H:%M:%-S'), read_temp(folder)]
 
-		try :
+		try:
 			worksheet.append_row(row)
 		except Exception as e:
 			print(e)

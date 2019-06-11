@@ -21,7 +21,6 @@ client = gspread.authorize(creds)
 spreadsheet = client.open(hostname)
 
 
-
 def main():
 	print('Calibrando ...')
 	detection = GasDetection(pin=0)
@@ -33,19 +32,19 @@ def main():
 			gases = {'CO': ppm[detection.CO_GAS],
 				'H2': ppm[detection.H2_GAS],
 				'CH4': ppm[detection.CH4_GAS],
-				'LP4': ppm[detection.LPG_GAS],
+				'LPG': ppm[detection.LPG_GAS],
 				'PROPANO': ppm[detection.PROPANE_GAS],
 				'ALCOOL': ppm[detection.ALCOHOL_GAS],
 				'FUMACA': ppm[detection.SMOKE_GAS]
 			}
 
-			print('CO: {} ppm'.format(ppm[detection.CO_GAS]))
-			print('H2: {} ppm'.format(ppm[detection.H2_GAS]))
-			print('CH4: {} ppm'.format(ppm[detection.CH4_GAS]))
-			print('LPG: {} ppm'.format(ppm[detection.LPG_GAS]))
-			print('PROPANO: {} ppm'.format(ppm[detection.PROPANE_GAS]))
-			print('ÁLCOOL: {} ppm'.format(ppm[detection.ALCOHOL_GAS]))
-			print('FUMAÇA: {} ppm\n'.format(ppm[detection.SMOKE_GAS]))
+			print('CO: {} ppm'.format(gases['CO']))
+			print('H2: {} ppm'.format(gases['H2']))
+			print('CH4: {} ppm'.format(gases['CH4']))
+			print('LPG: {} ppm'.format(gases['LPG']))
+			print('PROPANO: {} ppm'.format(gases['PROPANO']))
+			print('ÁLCOOL: {} ppm'.format(gases['ALCOOL']))
+			print('FUMAÇA: {} ppm\n'.format(gases['FUMACA']))
 
 			for gas, valor in gases.items():
 				# Todas as worksheets
@@ -63,16 +62,16 @@ def main():
 					worksheet.append_row(['Data', 'Valor (PPM)'])
 
 				# data e hora, temperatura
-				row = [datetime.now().strftime('%d/%m/%Y %H:%M:%-S'), read_temp(folder)]
+				row = [datetime.now().strftime('%d/%m/%Y %H:%M:%-S'), float(valor)]
 
-				try :
+				try:
 					worksheet.append_row(row)
 				except Exception as e:
 					print(e)
 					print('Erro ao enviar dados para a nuvem')
 
 				try:
-					with open(os.path.join(dir_path, 'logs-temperatura' ,folder + '.csv'), 'a') as f:
+					with open(os.path.join(dir_path, 'logs-gases' , gas + '.csv'), 'a') as f:
 						w = csv.writer(f)
 						w.writerow(row)
 				except Exception as e:
