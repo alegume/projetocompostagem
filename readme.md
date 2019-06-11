@@ -43,7 +43,9 @@ Referência: https://github.com/filips123/GasDetection
     A0: Saída Analógica
 
 Referências: 
+
 https://github.com/KRIPT4/MQ135-ADS1115-Python
+
 https://portal.vidadesilicio.com.br/sensor-de-gas-mq-135/
 
 ## Sensor de temperatura
