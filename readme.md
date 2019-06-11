@@ -23,8 +23,9 @@ https://docs.google.com/spreadsheets/d/1N5u85N-EJNjbe2gtfyZ38t3KWcYSQklyatBzgI10
 Referência: https://github.com/adafruit/Adafruit_CircuitPython_ADS1x15
 
 
-## Sensores de Gases (MQ-2 e MQ-135)
+## Sensor de gases MQ-2
 
+O sensor MQ-2 pode detectar vários gases (CO, H2, CH4, GLP, propano, álcool, fumaça) e gera tensão analógica. Este projeto pode convertê-lo em digital usando ADS1015 ou ADS1115 e filtrar os gases. O sensor pode ser impreciso, portanto, não use essas medidas se você precisar delas para fins de segurança. Use algum dispositivo de medição profissional, se você precisar fazer isso.
 
 
 Referência: https://github.com/filips123/GasDetection
