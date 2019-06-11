@@ -23,6 +23,12 @@ https://docs.google.com/spreadsheets/d/1N5u85N-EJNjbe2gtfyZ38t3KWcYSQklyatBzgI10
 Referência: https://github.com/adafruit/Adafruit_CircuitPython_ADS1x15
 
 
+## Sensores de Gases (MQ-2 e MQ-135)
+
+
+
+Referência: https://github.com/filips123/GasDetection
+
 
 ## Sensor de temperatura
 
