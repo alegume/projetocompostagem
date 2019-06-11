@@ -4,9 +4,7 @@ import time
 from gas_detection import GasDetection
 
 def main():
-	"""Handle example."""
-
-	print('Calibrating ...')
+	print('Calibrando ...')
 	detection = GasDetection()
 
 	try:
@@ -21,10 +19,10 @@ def main():
 			print('ALCOHOL: {} ppm'.format(ppm[detection.ALCOHOL_GAS]))
 			print('SMOKE: {} ppm\n'.format(ppm[detection.SMOKE_GAS]))
 
-			time.sleep(0.25)
+			time.sleep(0.5)
 
 	except KeyboardInterrupt:
-		print('\nAborted by user!')
+		print('\nUsuário abortou o processo =/')
 
 if __name__ == '__main__':
 	main()
