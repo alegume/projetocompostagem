@@ -1,11 +1,18 @@
 #!/usr/bin/python3
 
-import time
 from GasDetection.gas_detection import GasDetection
+import os
+import time
+import socket
+import time
+from datetime import datetime
+import csv
+import gspread
+from oauth2client.service_account import ServiceAccountCredentials
 
 def main():
 	print('Calibrando ...')
-	detection = GasDetection()
+	detection = GasDetection(pin=0)
 
 	try:
 		while True:

@@ -2,7 +2,6 @@
 import os
 import time
 import socket
-import time
 from datetime import datetime
 import csv
 import gspread
