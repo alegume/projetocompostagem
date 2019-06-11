@@ -5,6 +5,20 @@
 https://docs.google.com/spreadsheets/d/1N5u85N-EJNjbe2gtfyZ38t3KWcYSQklyatBzgI10Ji0/
 
 
+## Conversor ADC 'ADS1115'
+
+Conectar:
+
+    ADS1x15 VDD -> Raspberry Pi 3.3V
+    ADS1x15 GND -> Raspberry Pi GND
+    ADS1x15 SCL -> Raspberry Pi SCL
+    ADS1x15 SDA -> Raspberry Pi SDA
+
+
+
+## Sensor de temperatura
+
+
 ### Importante
 
 Ligar um resistor de 4.7kohm (~5kohm segundo a documentação) entre: 1) alimentação, 2) sensor e 3) input de dados
