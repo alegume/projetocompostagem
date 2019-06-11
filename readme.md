@@ -7,7 +7,7 @@ Projeto para monitorar os processos de compostagem utilizando Raspberry PI, múl
 https://docs.google.com/spreadsheets/d/1N5u85N-EJNjbe2gtfyZ38t3KWcYSQklyatBzgI10Ji0/
 
 
-## Conversor ADC 'ADS1115'
+## Conversor ADC ADS1115
 
 ### Conectar
 
@@ -50,7 +50,7 @@ Ligar um resistor de 4.7kohm (~5kohm segundo a documentação) entre: 1) aliment
 
 7. Entrar nos diretórios(cd 28-XXXXXXXXXXXX)
 
-8. VEr temperatura (cat w1_slave)
+8. Ver temperatura (cat w1_slave)
 
 
 Fonte: http://www.circuitbasics.com/raspberry-pi-ds18b20-temperature-sensor-tutorial/
