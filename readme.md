@@ -33,6 +33,17 @@ O sensor MQ-2 pode detectar vários gases (CO, H2, CH4, GLP, propano, álcool, f
 Referência: https://github.com/filips123/GasDetection
 
 
+## Sensor de gases MQ-135
+
+### Conectar
+
+    VCC: 5V
+    GND: GND
+    D0: Saída Digital
+    A0: Saída Analógica
+
+Referência: https://portal.vidadesilicio.com.br/sensor-de-gas-mq-135/
+
 ## Sensor de temperatura
 
 
