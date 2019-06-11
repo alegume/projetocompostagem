@@ -15,11 +15,11 @@ def main():
 			print('H2: {} ppm'.format(ppm[detection.H2_GAS]))
 			print('CH4: {} ppm'.format(ppm[detection.CH4_GAS]))
 			print('LPG: {} ppm'.format(ppm[detection.LPG_GAS]))
-			print('PROPANE: {} ppm'.format(ppm[detection.PROPANE_GAS]))
-			print('ALCOHOL: {} ppm'.format(ppm[detection.ALCOHOL_GAS]))
-			print('SMOKE: {} ppm\n'.format(ppm[detection.SMOKE_GAS]))
+			print('PROPANO: {} ppm'.format(ppm[detection.PROPANE_GAS]))
+			print('ÁLCOOL: {} ppm'.format(ppm[detection.ALCOHOL_GAS]))
+			print('FUMAÇA: {} ppm\n'.format(ppm[detection.SMOKE_GAS]))
 
-			time.sleep(0.5)
+			time.sleep(0.25)
 
 	except KeyboardInterrupt:
 		print('\nUsuário abortou o processo =/')
