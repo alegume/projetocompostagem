@@ -7,12 +7,18 @@ https://docs.google.com/spreadsheets/d/1N5u85N-EJNjbe2gtfyZ38t3KWcYSQklyatBzgI10
 
 ## Conversor ADC 'ADS1115'
 
-Conectar:
+### Conectar
 
     ADS1x15 VDD -> Raspberry Pi 3.3V
     ADS1x15 GND -> Raspberry Pi GND
     ADS1x15 SCL -> Raspberry Pi SCL
     ADS1x15 SDA -> Raspberry Pi SDA
+
+### Instalar biblioteca Adafruit
+
+  `sudo pip3 install adafruit-circuitpython-ads1x15`
+  
+Referência: https://github.com/adafruit/Adafruit_CircuitPython_ADS1x15
 
 
 
