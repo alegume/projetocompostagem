@@ -29,24 +29,19 @@ def main():
 		while True:
 			ppm = detection.percentage()
 
+			# Nao é possível criar worksheet com numeros
 			gases = {'CO': ppm[detection.CO_GAS],
-				'H2': ppm[detection.H2_GAS],
-				'CH4': ppm[detection.CH4_GAS],
+				'H-dois': ppm[detection.H2_GAS],
+				'CH-quatro': ppm[detection.CH4_GAS],
 				'LPG': ppm[detection.LPG_GAS],
 				'PROPANO': ppm[detection.PROPANE_GAS],
 				'ALCOOL': ppm[detection.ALCOHOL_GAS],
 				'FUMACA': ppm[detection.SMOKE_GAS]
 			}
 
-			print('CO: {} ppm'.format(gases['CO']))
-			print('H2: {} ppm'.format(gases['H2']))
-			print('CH4: {} ppm'.format(gases['CH4']))
-			print('LPG: {} ppm'.format(gases['LPG']))
-			print('PROPANO: {} ppm'.format(gases['PROPANO']))
-			print('ÁLCOOL: {} ppm'.format(gases['ALCOOL']))
-			print('FUMAÇA: {} ppm\n'.format(gases['FUMACA']))
-
 			for gas, valor in gases.items():
+				print('{}: {} ppm'.format(gas, valor))
+
 				# Todas as worksheets
 				ws_list = spreadsheet.worksheets()
 				worksheet = None
