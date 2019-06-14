@@ -48,7 +48,8 @@ CORF = -0.001923077
 CORG = 1.130128205
 
 # Atmospheric CO2 level for calibration purposes
-ATMOCO2 = 397.13
+# updated from: https://g1.globo.com/ciencia-e-saude/noticia/2019/04/06/concentracao-de-gas-carbonico-na-atmosfera-e-a-maior-em-3-milhoes-de-anos.ghtml
+ATMOCO2 = 400
 
 """
 @brief  Get the correction factor to correct for temperature and humidity
@@ -136,7 +137,7 @@ def getCorrectedRZero(t,h,CORA,CORB,CORC,CORD,CORE,CORF,CORG,value_pin,RLOAD,ATM
 	return getCorrectedResistance(t,h,CORA,CORB,CORC,CORD,CORE,CORF,CORG,value_pin,RLOAD) * math.pow((ATMOCO2/PARA), (1./PARB))
 
 """
-Re-maps a number from one range to another. That is, a value of fromLow would get mapped to toLow, 
+Re-maps a number from one range to another. That is, a value of fromLow would get mapped to toLow,
 a value of fromHigh to toHigh, values in-between to values in-between, etc.
 
 # Arduino: (0 a 1023)
@@ -153,8 +154,8 @@ def main():
 	value_pin = map((value_ads - 565), 0, 26690, 0, 1023) # 565 / 535 fix value
 	rzero = getRZero(value_pin,RLOAD,ATMOCO2,PARA,PARB)
 	correctedRZero = getCorrectedRZero(t,h,CORA,CORB,CORC,CORD,CORE,CORF,CORG,value_pin,RLOAD,ATMOCO2,PARA,PARB)
-	resistance = getResistance(value_pin,RLOAD)	
-	ppm = getPPM(PARA,RZERO,PARB,value_pin,RLOAD)	
+	resistance = getResistance(value_pin,RLOAD)
+	ppm = getPPM(PARA,RZERO,PARB,value_pin,RLOAD)
 	correctedPPM = getCorrectedPPM(t,h,CORA,CORB,CORC,CORD,CORE,CORF,CORG,value_pin,RLOAD,PARA,RZERO,PARB)
 	print("\n MQ135 Gas Sensor:\n")
 	print("\t MQ135 RZero: %s" % round(rzero))
