@@ -39,16 +39,16 @@ def getCPUtemperature():
 	res = os.popen('vcgencmd measure_temp').readline()
 	return(res.replace('temp=', '').replace("'C\n", ''))
 
-def log_local(row, device):
+def log_local(device, data):
 	try:
 		with open(os.path.join(dir_path, 'logs-temperatura', device + '.csv'), 'a') as f:
 			w = csv.writer(f)
-			w.writerow(row)
+			w.writerow(data)
 	except Exception as e:
 		print(e)
 		print('Erro ao salvar dado em arquivo .csv')
 
-def log_nuvem(row, device):
+def log_nuvem(device, data):
 	# Credenciais do Google Drive API
 	scope = ['https://spreadsheets.google.com/feeds', 'https://www.googleapis.com/auth/drive']
 	creds = ServiceAccountCredentials.from_json_keyfile_name(os.path.join(dir_path, 'secret_key.json'), scope)
@@ -68,9 +68,9 @@ def log_nuvem(row, device):
 	if worksheet == None:
 		worksheet = spreadsheet.add_worksheet(title=device, rows='100', cols='2')
 		worksheet.append_row(['Data Hora', 'Temperatura'])
-	# Escreve 
+	# Escreve
 	try:
-		worksheet.append_row(row)
+		worksheet.append_row(data)
 	except Exception as e:
 		print(e)
 		print('Erro ao enviar dados para a nuvem')
@@ -83,12 +83,22 @@ def main():
 	# Configuracoes dos diretorios W1
 	base_dir = '/sys/bus/w1/devices/'
 	device_folders = os.listdir(base_dir)
+	devices = []
 	for folder in device_folders:
 		if folder[0:2] != '28':
 			continue
 
 		# data e hora, temperatura
-		row = [datetime.now().strftime('%d/%m/%Y %H:%M:%-S'), read_temp(folder)]
+		data = [datetime.now().strftime('%d/%m/%Y %H:%M:%-S'), read_temp(device)]
+		devices[folder] = data
 
-		log_local(row, folder)
-		log_nuvem(row, folder)
+	# Registra o log separadamente (local primeiro)
+	for device, data in devices:
+		log_local(device, data)
+	for device, data in devices:
+		log_nuvem(device, data)
+		time.sleep(10)
+
+
+if __name__ == '__main__':
+	main()
