@@ -2,7 +2,7 @@
 
 from GasDetection.gas_detection import GasDetection
 import os
-#import time
+import time
 import socket
 from datetime import datetime
 import csv
@@ -20,28 +20,22 @@ client = gspread.authorize(creds)
 # Abre uma o documeto (spreadsheet)
 spreadsheet = client.open(hostname)
 
-
-def main():
-	print('Calibrando ...')
-	#### TODO: colocar o fator como constante
-	#### TODO: refazer esquema da temperatura
-	detection = GasDetection(pin=0)
-
-	ppm = detection.percentage()
-
-	# Nao é possível criar worksheet com numeros
-	gases = {'CO': ppm[detection.CO_GAS],
-		'H-dois': ppm[detection.H2_GAS],
-		'CH-quatro': ppm[detection.CH4_GAS],
-		'LPG': ppm[detection.LPG_GAS],
-		'PROPANO': ppm[detection.PROPANE_GAS],
-		'ALCOOL': ppm[detection.ALCOHOL_GAS],
-		'FUMACA': ppm[detection.SMOKE_GAS]
-	}
-
+def salvar_local(gases, hora):
 	for gas, valor in gases.items():
+		## TODO: REMOVER
 		print('{}: {} ppm'.format(gas, valor))
+		# data e hora, valor
+		row = [hora, float(valor)]
+		try:
+			with open(os.path.join(dir_path, 'logs-gas-' , gas + '.csv'), 'a') as f:
+				w = csv.writer(f)
+				w.writerow(row)
+		except Exception as e:
+			print(e)
+			print('Erro ao salvar dado em arquivo .csv')
 
+def salvar_nuvem(gases, hora):
+	for gas, valor in gases.items():
 		# Todas as worksheets
 		ws_list = spreadsheet.worksheets()
 		worksheet = None
@@ -56,24 +50,39 @@ def main():
 			worksheet = spreadsheet.add_worksheet(title=gas, rows='100', cols='2')
 			worksheet.append_row(['Data', 'Valor (PPM)'])
 
-		# data e hora, temperatura
-		row = [datetime.now().strftime('%d/%m/%Y %H:%M:%-S'), float(valor)]
-
+		# data e hora, valor
+		row = [hora, float(valor)]
 		try:
 			worksheet.append_row(row)
 		except Exception as e:
 			print(e)
 			print('Erro ao enviar dados para a nuvem')
 
-		try:
-			with open(os.path.join(dir_path, 'logs-gas-' , gas + '.csv'), 'a') as f:
-				w = csv.writer(f)
-				w.writerow(row)
-		except Exception as e:
-			print(e)
-			print('Erro ao salvar dado em arquivo .csv')
+		time.sleep(7)
 
-	time.sleep(20)
+def main():
+	print('Calibrando ...')
+	#### TODO: colocar o fator como constante
+	#### TODO: refazer esquema da temperatura
+	detection = GasDetection(pin=0)
+
+	ppm = detection.percentage()
+	hora = datetime.now().strftime('%d/%m/%Y %H:%M:%-S')
+
+	# Nao é possível criar worksheet com numeros
+	gases = {'CO': ppm[detection.CO_GAS],
+		'H-dois': ppm[detection.H2_GAS],
+		'CH-quatro': ppm[detection.CH4_GAS],
+		'LPG': ppm[detection.LPG_GAS],
+		'PROPANO': ppm[detection.PROPANE_GAS],
+		'ALCOOL': ppm[detection.ALCOHOL_GAS],
+		'FUMACA': ppm[detection.SMOKE_GAS]
+	}
+
+	# Registra o log separadamente (local primeiro)
+	salvar_local(gases, hora)
+	salvar_nuvem(gases, hora)
+
 
 if __name__ == '__main__':
 	main()
