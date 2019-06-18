@@ -2,7 +2,7 @@
 
 from GasDetection.gas_detection import GasDetection
 import os
-import time
+#import time
 import socket
 from datetime import datetime
 import csv
