@@ -73,7 +73,7 @@ def main():
 					print(e)
 					print('Erro ao salvar dado em arquivo .csv')
 
-			time.sleep(3)
+			time.sleep(20)
 
 	except KeyboardInterrupt:
 		print('\nUsuário abortou o processo =/')
