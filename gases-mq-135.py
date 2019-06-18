@@ -164,5 +164,10 @@ def main():
 	print("\t PPM: %s" % round(ppm))
 	print("\t Corrected PPM: %s ppm" % round(correctedPPM))
 
+
+	# Modificacoes
+	
+
+
 if __name__ == "__main__":
 	main()
