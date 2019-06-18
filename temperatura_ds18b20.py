@@ -68,7 +68,7 @@ def log_nuvem(row, device):
 	if worksheet == None:
 		worksheet = spreadsheet.add_worksheet(title=device, rows='100', cols='2')
 		worksheet.append_row(['Data Hora', 'Temperatura'])
-
+	# Escreve 
 	try:
 		worksheet.append_row(row)
 	except Exception as e:
