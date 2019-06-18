@@ -8,9 +8,9 @@ import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 
 '''
-Vdd = 3.3 V
-Resistor = 4.7k (Liga Vdd com entrada de dados)
-Entrada de dados = GPIO PIN 4
+	Vdd = 3.3 V
+	Resistor = 4.7k (Liga Vdd com entrada de dados)
+	Entrada de dados = GPIO4
 '''
 
 # Carregar modulos do SO
