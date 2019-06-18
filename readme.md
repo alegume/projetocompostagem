@@ -79,3 +79,8 @@ Ligar um resistor de 4.7kohm (~5kohm segundo a documentação) entre: 1) aliment
 
 Fonte: http://www.circuitbasics.com/raspberry-pi-ds18b20-temperature-sensor-tutorial/
 
+## Adicionar processos na crontab (crontab -e):
+
+  `*/1 * * * * /home/pi/Documents/raspberry-misc/temperatura-interna-raspberry.py >> /home/pi/log-temp-2-minutos.txt 2>&1`
+
+   `*/5 * * * * /home/pi/Documents/projetocompostagem/temperatura_ds18b20.py >> /home/pi/log-temp-sensores.txt 2>&1`
