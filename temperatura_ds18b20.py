@@ -14,8 +14,8 @@ Entrada de dados = GPIO PIN 4
 '''
 
 # Carregar modulos do SO
-os.system('modprobe w1-gpio')
-os.system('modprobe w1-therm')
+#os.system('modprobe w1-gpio')
+#os.system('modprobe w1-therm')
 
 def read_temp_raw(device_file):
 	try:
