@@ -19,6 +19,22 @@ Original creator of this library: https://github.com/GeorgK/MQ135
 import sys
 import math
 import operator
+import time
+import datetime
+import csv
+import gspread
+from oauth2client.service_account import ServiceAccountCredentials
+import socket
+
+# Informacoes do host
+hostname = socket.gethostname()
+
+# Credenciais do Google Drive API
+scope = ['https://spreadsheets.google.com/feeds', 'https://www.googleapis.com/auth/drive']
+creds = ServiceAccountCredentials.from_json_keyfile_name(os.path.join(dir_path, 'secret_key.json'), scope)
+client = gspread.authorize(creds)
+# Abre uma o documeto (spreadsheet)
+spreadsheet = client.open(hostname)
 
 # Medis de Canoinhas retiradas de: https://pt.weatherspark.com/y/29811/Clima-caracter%C3%ADstico-em-Canoinhas-Brasil-durante-o-ano
 t = 16 # assume current temperature. Recommended to measure with DHT22
@@ -149,6 +165,44 @@ More Info: https://www.arduino.cc/reference/en/language/functions/math/map/
 def map(x,in_min,in_max,out_min,out_max):
 	return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min
 
+def log_local(data):
+	try:
+		with open(os.path.join(dir_path, 'logs-gas-135.csv'), 'a') as f:
+			w = csv.writer(f)
+			w.writerow(data)
+	except Exception as e:
+		print(e)
+		print('Erro ao salvar dado em arquivo .csv')
+
+def log_nuvem(data):
+	# Credenciais do Google Drive API
+	scope = ['https://spreadsheets.google.com/feeds', 'https://www.googleapis.com/auth/drive']
+	creds = ServiceAccountCredentials.from_json_keyfile_name(os.path.join(dir_path, 'secret_key.json'), scope)
+	client = gspread.authorize(creds)
+	# Abre uma o documeto (spreadsheet)
+	spreadsheet = client.open(hostname)
+	# Todas as worksheets
+	ws_list = spreadsheet.worksheets()
+	worksheet = None
+
+	# Abre a planilha (worksheet)
+	planilha = 'sensor-135'
+	for ws in ws_list:
+		if ws.title == planilha:
+			worksheet = spreadsheet.worksheet(planilha)
+			break
+	# Se nao existe, cria
+	if worksheet == None:
+		worksheet = spreadsheet.add_worksheet(title=planilha, rows='100', cols='2')
+		worksheet.append_row(['Data Hora', 'Valor (PPM)'])
+	# Escreve
+	try:
+		worksheet.append_row(data)
+	except Exception as e:
+		print(e)
+		print('Erro ao enviar dados para a nuvem')
+
+
 def main():
 	value_ads = 3300 # value obtained by ADS1115
 	value_pin = map((value_ads - 565), 0, 26690, 0, 1023) # 565 / 535 fix value
@@ -164,9 +218,13 @@ def main():
 	print("\t PPM: %s" % round(ppm))
 	print("\t Corrected PPM: %s ppm" % round(correctedPPM))
 
+	time.sleep(13)
+
+	data = [datetime.now().strftime('%d/%m/%Y %H:%M:%-S'), round(correctedPPM)]
 
 	# Modificacoes
-	
+	log_local(data)
+	log_nuvem(data)
 
 
 if __name__ == "__main__":

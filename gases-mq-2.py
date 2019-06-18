@@ -10,7 +10,6 @@ import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 
 # Informacoes do host
-dir_path = os.path.dirname(os.path.realpath(__file__))
 hostname = socket.gethostname()
 
 # Credenciais do Google Drive API
@@ -20,7 +19,7 @@ client = gspread.authorize(creds)
 # Abre uma o documeto (spreadsheet)
 spreadsheet = client.open(hostname)
 
-def salvar_local(gases, hora):
+def log_local(gases, hora):
 	for gas, valor in gases.items():
 		## TODO: REMOVER
 		print('{}: {} ppm'.format(gas, valor))
@@ -34,7 +33,7 @@ def salvar_local(gases, hora):
 			print(e)
 			print('Erro ao salvar dado em arquivo .csv')
 
-def salvar_nuvem(gases, hora):
+def log_nuvem(gases, hora):
 	for gas, valor in gases.items():
 		# Todas as worksheets
 		ws_list = spreadsheet.worksheets()
@@ -80,8 +79,8 @@ def main():
 	}
 
 	# Registra o log separadamente (local primeiro)
-	salvar_local(gases, hora)
-	salvar_nuvem(gases, hora)
+	log_local(gases, hora)
+	log_nuvem(gases, hora)
 
 
 if __name__ == '__main__':
