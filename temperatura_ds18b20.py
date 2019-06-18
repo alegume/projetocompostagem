@@ -57,6 +57,7 @@ def getCPUtemperature():
 
 # Bloco principal
 #### TODO: criar uma lista com os dispositivos e chamar o log local para todos e depois o log em nuvem
+#### TODO: colocar um delay pra enviar os dados pra nuvem
 device_folders = os.listdir(base_dir)
 for folder in device_folders:
 	if folder[0:2] != '28':
