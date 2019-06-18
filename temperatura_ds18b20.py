@@ -17,6 +17,13 @@ from oauth2client.service_account import ServiceAccountCredentials
 #os.system('modprobe w1-gpio')
 #os.system('modprobe w1-therm')
 
+# Informacoes do host
+dir_path = os.path.dirname(os.path.realpath(__file__))
+hostname = socket.gethostname()
+# Configuracoes dos diretorios W1
+base_dir = '/sys/bus/w1/devices/'
+device_folders = os.listdir(base_dir)
+
 def read_temp_raw(device_file):
 	try:
 		f = open(os.path.join(base_dir, device_file), 'r')
@@ -77,25 +84,19 @@ def log_nuvem(device, data):
 
 # Bloco principal
 def main():
-	# Informacoes do host
-	dir_path = os.path.dirname(os.path.realpath(__file__))
-	hostname = socket.gethostname()
-	# Configuracoes dos diretorios W1
-	base_dir = '/sys/bus/w1/devices/'
-	device_folders = os.listdir(base_dir)
-	devices = []
+	devices = dict()
 	for folder in device_folders:
 		if folder[0:2] != '28':
 			continue
 
 		# data e hora, temperatura
-		data = [datetime.now().strftime('%d/%m/%Y %H:%M:%-S'), read_temp(device)]
+		data = [datetime.now().strftime('%d/%m/%Y %H:%M:%-S'), read_temp(folder)]
 		devices[folder] = data
 
 	# Registra o log separadamente (local primeiro)
-	for device, data in devices:
+	for device, data in devices.items():
 		log_local(device, data)
-	for device, data in devices:
+	for device, data in devices.items():
 		log_nuvem(device, data)
 		time.sleep(10)
 
