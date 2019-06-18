@@ -55,42 +55,41 @@ def getCPUtemperature():
 	return(res.replace('temp=', '').replace("'C\n", ''))
 
 
-# Loop principal
-while True:
-	device_folders = os.listdir(base_dir)
-	for folder in device_folders:
-		if folder[0:2] != '28':
-			continue
+# Bloco principal
+#### TODO: criar uma lista com os dispositivos e chamar o log local para todos e depois o log em nuvem
+#### TODO: colocar um delay pra enviar os dados pra nuvem
+device_folders = os.listdir(base_dir)
+for folder in device_folders:
+	if folder[0:2] != '28':
+		continue
 
-		# Todas as worksheets
-		ws_list = spreadsheet.worksheets()
-		worksheet = None
+	# Todas as worksheets
+	ws_list = spreadsheet.worksheets()
+	worksheet = None
 
-		# Abre a planilha (worksheet)
-		for ws in ws_list:
-			if ws.title == folder:
-				worksheet = spreadsheet.worksheet(folder)
-				break
-		# Se nao existe, cria
-		if worksheet == None:
-			worksheet = spreadsheet.add_worksheet(title=folder, rows='100', cols='2')
-			worksheet.append_row(['Data Hora', 'Temperatura'])
+	# Abre a planilha (worksheet)
+	for ws in ws_list:
+		if ws.title == folder:
+			worksheet = spreadsheet.worksheet(folder)
+			break
+	# Se nao existe, cria
+	if worksheet == None:
+		worksheet = spreadsheet.add_worksheet(title=folder, rows='100', cols='2')
+		worksheet.append_row(['Data Hora', 'Temperatura'])
 
-		# data e hora, temperatura
-		row = [datetime.now().strftime('%d/%m/%Y %H:%M:%-S'), read_temp(folder)]
+	# data e hora, temperatura
+	row = [datetime.now().strftime('%d/%m/%Y %H:%M:%-S'), read_temp(folder)]
 
-		try:
-			worksheet.append_row(row)
-		except Exception as e:
-			print(e)
-			print('Erro ao enviar dados para a nuvem')
+	try:
+		worksheet.append_row(row)
+	except Exception as e:
+		print(e)
+		print('Erro ao enviar dados para a nuvem')
 
-		try:
-			with open(os.path.join(dir_path, 'logs-temperatura' ,folder + '.csv'), 'a') as f:
-				w = csv.writer(f)
-				w.writerow(row)
-		except Exception as e:
-			print(e)
-			print('Erro ao salvar dado em arquivo .csv')
-
-		time.sleep(5)
+	try:
+		with open(os.path.join(dir_path, 'logs-temperatura' ,folder + '.csv'), 'a') as f:
+			w = csv.writer(f)
+			w.writerow(row)
+	except Exception as e:
+		print(e)
+		print('Erro ao salvar dado em arquivo .csv')
