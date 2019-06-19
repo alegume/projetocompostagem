@@ -84,3 +84,7 @@ Fonte: http://www.circuitbasics.com/raspberry-pi-ds18b20-temperature-sensor-tuto
   `*/1 * * * * /home/pi/Documents/raspberry-misc/temperatura-interna-raspberry.py >> /home/pi/log-temp-2-minutos.txt 2>&1`
 
    `*/5 * * * * /home/pi/Documents/projetocompostagem/temperatura_ds18b20.py >> /home/pi/log-temp-sensores.txt 2>&1`
+   
+   `*/1 * * * * /home/pi/Documents/projetocompostagem/gases-mq-2.py >> /home/pi/log-gases-mq2.txt 2>&1`
+
+   `*/1 * * * * /home/pi/Documents/projetocompostagem/gases-mq-135.py >> /home/pi/log-gases-mq135.txt 2>&1`
