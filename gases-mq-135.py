@@ -20,13 +20,19 @@ import sys
 import math
 import operator
 import time
-import datetime
+from datetime import datetime
 import csv
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 import socket
+import os
+import board
+import busio
+import adafruit_ads1x15.ads1015 as ADS
+from adafruit_ads1x15.analog_in import AnalogIn
 
 # Informacoes do host
+dir_path = os.path.dirname(os.path.realpath(__file__))
 hostname = socket.gethostname()
 
 # Credenciais do Google Drive API
@@ -167,7 +173,7 @@ def map(x,in_min,in_max,out_min,out_max):
 
 def log_local(data):
 	try:
-		with open(os.path.join(dir_path, 'logs-gas-135.csv'), 'a') as f:
+		with open(os.path.join(dir_path, 'logs-gases', 'logs-gas-135.csv'), 'a') as f:
 			w = csv.writer(f)
 			w.writerow(data)
 	except Exception as e:
@@ -194,7 +200,7 @@ def log_nuvem(data):
 	# Se nao existe, cria
 	if worksheet == None:
 		worksheet = spreadsheet.add_worksheet(title=planilha, rows='100', cols='2')
-		worksheet.append_row(['Data Hora', 'Valor (PPM)'])
+		worksheet.append_row(['Data Hora', 'Valor (PPM)', 'ppm', 'resistance', 'Correted RZero', 'RZero'])
 	# Escreve
 	try:
 		worksheet.append_row(data)
@@ -204,23 +210,31 @@ def log_nuvem(data):
 
 
 def main():
-	value_ads = 3300 # value obtained by ADS1115
+	# Create the I2C bus
+	i2c = busio.I2C(board.SCL, board.SDA)
+	# Create the ADC object using the I2C bus
+	ads = ADS.ADS1015(i2c)
+	# Create single-ended input on channel 1
+	chan = AnalogIn(ads, ADS.P1)
+	#print("{:>5}\t{:>5.3f}".format(chan.value, chan.voltage))
+
+	value_ads = chan.value # value obtained by ADS1115
 	value_pin = map((value_ads - 565), 0, 26690, 0, 1023) # 565 / 535 fix value
 	rzero = getRZero(value_pin,RLOAD,ATMOCO2,PARA,PARB)
 	correctedRZero = getCorrectedRZero(t,h,CORA,CORB,CORC,CORD,CORE,CORF,CORG,value_pin,RLOAD,ATMOCO2,PARA,PARB)
 	resistance = getResistance(value_pin,RLOAD)
 	ppm = getPPM(PARA,RZERO,PARB,value_pin,RLOAD)
 	correctedPPM = getCorrectedPPM(t,h,CORA,CORB,CORC,CORD,CORE,CORF,CORG,value_pin,RLOAD,PARA,RZERO,PARB)
-	print("\n MQ135 Gas Sensor:\n")
-	print("\t MQ135 RZero: %s" % round(rzero))
-	print("\t Corrected RZero: %s" % round(correctedRZero))
-	print("\t Resistance: %s" % round(resistance))
-	print("\t PPM: %s" % round(ppm))
-	print("\t Corrected PPM: %s ppm" % round(correctedPPM))
+	
+	#print("\n MQ135 Gas Sensor:\n")
+	#print("\t MQ135 RZero: %s" % round(rzero))
+	#print("\t Corrected RZero: %s" % round(correctedRZero))
+	#print("\t Resistance: %s" % round(resistance))
+	#print("\t PPM: %s" % round(ppm))
+	#print("\t Corrected PPM: %s ppm" % round(correctedPPM))
 
-	time.sleep(13)
-
-	data = [datetime.now().strftime('%d/%m/%Y %H:%M:%-S'), round(correctedPPM)]
+	# data hora, 
+	data = [datetime.now().strftime('%d/%m/%Y %H:%M:%-S'), round(correctedPPM), round(ppm), round(resistance), round(correctedRZero), round(rzero)]
 
 	# Modificacoes
 	log_local(data)

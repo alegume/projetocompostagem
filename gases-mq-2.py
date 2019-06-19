@@ -10,6 +10,7 @@ import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 
 # Informacoes do host
+dir_path = os.path.dirname(os.path.realpath(__file__))
 hostname = socket.gethostname()
 
 # Credenciais do Google Drive API
@@ -21,12 +22,11 @@ spreadsheet = client.open(hostname)
 
 def log_local(gases, hora):
 	for gas, valor in gases.items():
-		## TODO: REMOVER
-		print('{}: {} ppm'.format(gas, valor))
+		#print('{}: {} ppm'.format(gas, valor))
 		# data e hora, valor
 		row = [hora, float(valor)]
 		try:
-			with open(os.path.join(dir_path, 'logs-gas-' , gas + '.csv'), 'a') as f:
+			with open(os.path.join(dir_path, 'logs-gases' , gas + '.csv'), 'a') as f:
 				w = csv.writer(f)
 				w.writerow(row)
 		except Exception as e:
@@ -57,13 +57,13 @@ def log_nuvem(gases, hora):
 			print(e)
 			print('Erro ao enviar dados para a nuvem')
 
-		time.sleep(7)
+		#time.sleep(1)
 
 def main():
-	print('Calibrando ...')
-	#### TODO: colocar o fator como constante
-	#### TODO: refazer esquema da temperatura
-	detection = GasDetection(pin=0)
+	# Calculado a partir de 40 amostras de ar limpo
+	ro = 3305.5537530717893
+	detection = GasDetection(pin=0, ro=ro)
+	print('RO: ', detection.ro)
 
 	ppm = detection.percentage()
 	hora = datetime.now().strftime('%d/%m/%Y %H:%M:%-S')
