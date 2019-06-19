@@ -57,7 +57,7 @@ def log_nuvem(gases, hora):
 			print(e)
 			print('Erro ao enviar dados para a nuvem')
 
-		#time.sleep(1)
+		time.sleep(7)
 
 def main():
 	# Calculado a partir de 40 amostras de ar limpo
