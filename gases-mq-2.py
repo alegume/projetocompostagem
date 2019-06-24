@@ -17,7 +17,7 @@ hostname = socket.gethostname()
 scope = ['https://spreadsheets.google.com/feeds', 'https://www.googleapis.com/auth/drive']
 creds = ServiceAccountCredentials.from_json_keyfile_name(os.path.join(dir_path, 'secret_key.json'), scope)
 client = gspread.authorize(creds)
-# Abre uma o documeto (spreadsheet)
+# Abre um documeto (spreadsheet)
 spreadsheet = client.open(hostname)
 
 def log_local(gases, hora):
