@@ -96,9 +96,10 @@ def main():
 	# Registra o log separadamente (local primeiro)
 	for device, data in devices.items():
 		log_local(device, data)
+	# TODO: descomentar
 	for device, data in devices.items():
 		log_nuvem(device, data)
-		time.sleep(10)
+		time.sleep(7)
 
 
 if __name__ == '__main__':

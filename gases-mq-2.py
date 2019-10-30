@@ -63,7 +63,7 @@ def main():
 	# Calculado a partir de 40 amostras de ar limpo
 	ro = 3305.5537530717893
 	detection = GasDetection(pin=0, ro=ro)
-	print('RO: ', detection.ro)
+	#print('RO: ', detection.ro)
 
 	ppm = detection.percentage()
 	hora = datetime.now().strftime('%d/%m/%Y %H:%M:%-S')
