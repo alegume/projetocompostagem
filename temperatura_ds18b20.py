@@ -98,7 +98,7 @@ def main():
 		log_local(device, data)
 	for device, data in devices.items():
 		log_nuvem(device, data)
-		time.sleep(7)
+		time.sleep(11)
 
 
 if __name__ == '__main__':
