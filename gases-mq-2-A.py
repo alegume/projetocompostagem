@@ -38,15 +38,16 @@ def log_nuvem(gases, hora):
 		# Todas as worksheets
 		ws_list = spreadsheet.worksheets()
 		worksheet = None
+		title = 'A-' + gas
 
 		# Abre a planilha (worksheet)
 		for ws in ws_list:
-			if ws.title == gas:
-				worksheet = spreadsheet.worksheet(gas)
+			if ws.title == title:
+				worksheet = spreadsheet.worksheet(title)
 				break
 		# Se nao existe, cria
 		if worksheet == None:
-			worksheet = spreadsheet.add_worksheet(title=gas, rows='100', cols='2')
+			worksheet = spreadsheet.add_worksheet(title=title, rows='100', cols='2')
 			worksheet.append_row(['Data', 'Valor (PPM)'])
 
 		# data e hora, valor

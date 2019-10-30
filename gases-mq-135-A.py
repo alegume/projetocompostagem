@@ -192,7 +192,7 @@ def log_nuvem(data):
 	worksheet = None
 
 	# Abre a planilha (worksheet)
-	planilha = 'sensor-135'
+	planilha = 'A-sensor-135'
 	for ws in ws_list:
 		if ws.title == planilha:
 			worksheet = spreadsheet.worksheet(planilha)
@@ -225,7 +225,7 @@ def main():
 	resistance = getResistance(value_pin,RLOAD)
 	ppm = getPPM(PARA,RZERO,PARB,value_pin,RLOAD)
 	correctedPPM = getCorrectedPPM(t,h,CORA,CORB,CORC,CORD,CORE,CORF,CORG,value_pin,RLOAD,PARA,RZERO,PARB)
-	
+
 	#print("\n MQ135 Gas Sensor:\n")
 	#print("\t MQ135 RZero: %s" % round(rzero))
 	#print("\t Corrected RZero: %s" % round(correctedRZero))
@@ -233,7 +233,7 @@ def main():
 	#print("\t PPM: %s" % round(ppm))
 	#print("\t Corrected PPM: %s ppm" % round(correctedPPM))
 
-	# data hora, 
+	# data hora,
 	data = [datetime.now().strftime('%d/%m/%Y %H:%M:%-S'), round(correctedPPM), round(ppm), round(resistance), round(correctedRZero), round(rzero)]
 
 	# Modificacoes
