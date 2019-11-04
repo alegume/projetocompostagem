@@ -36,11 +36,15 @@ dir_path = os.path.dirname(os.path.realpath(__file__))
 hostname = socket.gethostname()
 
 # Credenciais do Google Drive API
-scope = ['https://spreadsheets.google.com/feeds', 'https://www.googleapis.com/auth/drive']
-creds = ServiceAccountCredentials.from_json_keyfile_name(os.path.join(dir_path, 'secret_key.json'), scope)
-client = gspread.authorize(creds)
-# Abre uma o documeto (spreadsheet)
-spreadsheet = client.open(hostname)
+try:
+	scope = ['https://spreadsheets.google.com/feeds', 'https://www.googleapis.com/auth/drive']
+	creds = ServiceAccountCredentials.from_json_keyfile_name(os.path.join(dir_path, 'secret_key.json'), scope)
+	client = gspread.authorize(creds)
+	# Abre uma o documeto (spreadsheet)
+	spreadsheet = client.open(hostname)
+except Exception as e:
+		print(e)
+		print('Erro ao conectar no google clound')
 
 # Medis de Canoinhas retiradas de: https://pt.weatherspark.com/y/29811/Clima-caracter%C3%ADstico-em-Canoinhas-Brasil-durante-o-ano
 t = 16 # assume current temperature. Recommended to measure with DHT22
@@ -173,7 +177,7 @@ def map(x,in_min,in_max,out_min,out_max):
 
 def log_local(data):
 	try:
-		with open(os.path.join(dir_path, 'logs-gases', 'logs-gas-135.csv'), 'a') as f:
+		with open(os.path.join(dir_path, 'logs-gases', 'logs-gas-135-A.csv'), 'a') as f:
 			w = csv.writer(f)
 			w.writerow(data)
 	except Exception as e:
@@ -237,8 +241,16 @@ def main():
 	data = [datetime.now().strftime('%d/%m/%Y %H:%M:%-S'), round(correctedPPM), round(ppm), round(resistance), round(correctedRZero), round(rzero)]
 
 	# Modificacoes
-	log_local(data)
-	log_nuvem(data)
+	try:
+		log_local(data)
+	except Exception as e:
+		print(e)
+		print('Erro ao enviar dados locais')
+	try:
+		log_nuvem(data)
+	except Exception as e:
+		print(e)
+		print('Erro ao enviar dados na nuvem')
 
 
 if __name__ == "__main__":

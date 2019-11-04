@@ -14,11 +14,15 @@ dir_path = os.path.dirname(os.path.realpath(__file__))
 hostname = socket.gethostname()
 
 # Credenciais do Google Drive API
-scope = ['https://spreadsheets.google.com/feeds', 'https://www.googleapis.com/auth/drive']
-creds = ServiceAccountCredentials.from_json_keyfile_name(os.path.join(dir_path, 'secret_key.json'), scope)
-client = gspread.authorize(creds)
-# Abre um documeto (spreadsheet)
-spreadsheet = client.open(hostname)
+try:
+	scope = ['https://spreadsheets.google.com/feeds', 'https://www.googleapis.com/auth/drive']
+	creds = ServiceAccountCredentials.from_json_keyfile_name(os.path.join(dir_path, 'secret_key.json'), scope)
+	client = gspread.authorize(creds)
+	# Abre um documeto (spreadsheet)
+	spreadsheet = client.open(hostname)
+except Exception as e:
+		print(e)
+		print('Erro ao conectar no google clound')
 
 def log_local(gases, hora):
 	for gas, valor in gases.items():
@@ -26,7 +30,7 @@ def log_local(gases, hora):
 		# data e hora, valor
 		row = [hora, float(valor)]
 		try:
-			with open(os.path.join(dir_path, 'logs-gases' , gas + '.csv'), 'a') as f:
+			with open(os.path.join(dir_path, 'logs-gases' , gas + '-B.csv'), 'a') as f:
 				w = csv.writer(f)
 				w.writerow(row)
 		except Exception as e:
@@ -34,31 +38,35 @@ def log_local(gases, hora):
 			print('Erro ao salvar dado em arquivo .csv')
 
 def log_nuvem(gases, hora):
-	for gas, valor in gases.items():
-		# Todas as worksheets
-		ws_list = spreadsheet.worksheets()
-		worksheet = None
-		title = 'B-' + gas
+	try:
+		for gas, valor in gases.items():
+			# Todas as worksheets
+			ws_list = spreadsheet.worksheets()
+			worksheet = None
+			title = 'B-' + gas
 
-		# Abre a planilha (worksheet)
-		for ws in ws_list:
-			if ws.title == title:
-				worksheet = spreadsheet.worksheet(title)
-				break
-		# Se nao existe, cria
-		if worksheet == None:
-			worksheet = spreadsheet.add_worksheet(title=title, rows='100', cols='2')
-			worksheet.append_row(['Data', 'Valor (PPM)'])
+			# Abre a planilha (worksheet)
+			for ws in ws_list:
+				if ws.title == title:
+					worksheet = spreadsheet.worksheet(title)
+					break
+			# Se nao existe, cria
+			if worksheet == None:
+				worksheet = spreadsheet.add_worksheet(title=title, rows='100', cols='2')
+				worksheet.append_row(['Data', 'Valor (PPM)'])
 
-		# data e hora, valor
-		row = [hora, float(valor)]
-		try:
-			worksheet.append_row(row)
-		except Exception as e:
-			print(e)
-			print('Erro ao enviar dados para a nuvem')
+			# data e hora, valor
+			row = [hora, float(valor)]
+			try:
+				worksheet.append_row(row)
+			except Exception as e:
+				print(e)
+				print('Erro ao enviar dados para a nuvem')
 
-		time.sleep(7)
+			time.sleep(7)
+	except Exception as e:
+		print(e)
+		print('Erro ao enviar dados para a nuvem')
 
 def main():
 	# Calculado a partir de 40 amostras de ar limpo
